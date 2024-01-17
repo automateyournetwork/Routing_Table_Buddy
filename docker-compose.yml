@@ -10,5 +10,3 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "8501:8501"
-    volumes:
-      - ./microsoft/phi-2:/app/phi-2
