@@ -12,7 +12,7 @@ devices:
     connections:
       cli:
         protocol: ssh
-        ip: sandbox-iosxe-latest-1.cisco.com
+        ip: devnetsandboxiosxe.cisco.com
         port: 22
         arguments:
           connection_timeout: 360

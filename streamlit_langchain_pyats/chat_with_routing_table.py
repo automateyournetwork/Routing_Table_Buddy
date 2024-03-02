@@ -7,7 +7,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import JSONLoader
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_experimental.text_splitter import SemanticChunker
 
 # Function to run pyATS job
 def run_pyats_job():
@@ -43,11 +43,7 @@ class ChatWithRoutingTable:
 
     def split_into_chunks(self):
         # Create a text splitter
-        self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=100,
-            length_function=len,
-        )
+        self.text_splitter = SemanticChunker(OpenAIEmbeddings())
         self.docs = self.text_splitter.split_documents(self.pages)
 
     def store_in_chroma(self):
@@ -101,7 +97,7 @@ class ChatWithRoutingTable:
 chat_instance = ChatWithRoutingTable()
 
 # Streamlit UI for chat
-st.title("Chat with Cisco IOS XE Routing Table")
+st.title("Routing Table Buddy")
 
 # Initialize conversation history in session state if not present
 if 'conversation_history' not in st.session_state:
