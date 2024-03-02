@@ -1,4 +1,4 @@
-# streamlit_langchain_pyats
+# Routing Table Buddy
 Quick streamlit app using langchain and pyats 
 
 ## Chat with your routing table! 
