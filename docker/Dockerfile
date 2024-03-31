@@ -20,9 +20,8 @@ RUN echo "==> Install dos2unix..." \
   && sudo apt-get install dos2unix -y 
 
 RUN echo "==> Install langchain requirements.." \
-  && pip install -U --quiet langchain_experimental langchain langchain-openai langchain-community \
+  && pip install -U --quiet langchain_experimental langchain langchain-community \
   && pip install chromadb \
-  && pip install openai \
   && pip install tiktoken
 
 RUN echo "==> Install jq.." \
@@ -30,6 +29,12 @@ RUN echo "==> Install jq.." \
 
 RUN echo "==> Install streamlit.." \
   && pip install streamlit
+
+RUN echo "==> Adding Fast Embeddings ..." \
+  && pip install --upgrade --quiet  fastembed
+
+RUN echo "==> Install requests.." \
+  && pip install requests
 
 COPY /streamlit_langchain_pyats /streamlit_langchain_pyats/
 COPY /scripts /scripts/
