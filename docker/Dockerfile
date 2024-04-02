@@ -30,8 +30,9 @@ RUN echo "==> Install jq.." \
 RUN echo "==> Install streamlit.." \
   && pip install streamlit
 
-RUN echo "==> Adding Fast Embeddings ..." \
-  && pip install --upgrade --quiet  fastembed
+RUN echo "==> Adding InstructorEmbedding ..." \
+  && pip install -U sentence-transformers==2.2.2 \
+  && pip install InstructorEmbedding
 
 RUN echo "==> Install requests.." \
   && pip install requests
