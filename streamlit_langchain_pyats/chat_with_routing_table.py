@@ -7,10 +7,12 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.document_loaders import JSONLoader
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
+from langchain_community.embeddings import HuggingFaceInstructEmbeddings 
 
 class ChatWithRoutingTable:
     def __init__(self):
+        with st.spinner("Downloading Instructor XL Embeddings Model locally....please be patient"):
+            self.embedding_model=HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cuda"})
         self.conversation_history = []
         self.load_text()
         self.split_into_chunks()
@@ -28,11 +30,11 @@ class ChatWithRoutingTable:
 
     def split_into_chunks(self):
         # Create a text splitter
-        self.text_splitter = SemanticChunker(FastEmbedEmbeddings())
+        self.text_splitter = SemanticChunker(self.embedding_model)
         self.docs = self.text_splitter.split_documents(self.pages)
 
     def store_in_chroma(self):
-        embeddings = FastEmbedEmbeddings()
+        embeddings = self.embedding_model
         self.vectordb = Chroma.from_documents(self.docs, embedding=embeddings)
         self.vectordb.persist()
 
