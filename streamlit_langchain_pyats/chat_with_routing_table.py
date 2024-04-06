@@ -9,10 +9,15 @@ from langchain_community.document_loaders import JSONLoader
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_community.embeddings import HuggingFaceInstructEmbeddings 
 
+@st.cache_resource
+def load_model():
+    with st.spinner("Downloading Instructor XL Embeddings Model locally....please be patient"):
+        embedding_model=HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cuda"})
+    return embedding_model
+
 class ChatWithRoutingTable:
     def __init__(self):
-        with st.spinner("Downloading Instructor XL Embeddings Model locally....please be patient"):
-            self.embedding_model=HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-large", model_kwargs={"device": "cuda"})
+        self.embedding_model = load_model()
         self.conversation_history = []
         self.load_text()
         self.split_into_chunks()
